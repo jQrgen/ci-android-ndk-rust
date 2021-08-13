@@ -4,6 +4,7 @@ ENV ANDROID_COMPILE_SDK "28"
 ENV ANDROID_BUILD_TOOLS "28.0.2"
 ENV ANDROID_SDK_TOOLS "4333796"
 ENV ANDROID_HOME /android-sdk-linux
+ENV ANDROID_NDK_ROOT /android-ndk-linux
 ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools/"
 ENV PATH=/root/.cargo/bin:$PATH
 
@@ -29,5 +30,5 @@ RUN echo y | $SDK_PATH/android-sdk-linux/tools/bin/sdkmanager "build-tools;${AND
 
 # Download NDK
 RUN wget --continue --quiet -N --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-RUN unzip -x android-ndk.zip > /dev/null
-RUN export ANDROID_NDK_ROOT=$PWD/android-ndk-r21b
+RUN unzip -d $ANDROID_NDK_ROOT android-ndk.zip
+RUN rm android-ndk.zip
