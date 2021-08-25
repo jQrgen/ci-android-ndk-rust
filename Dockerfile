@@ -6,13 +6,14 @@ ENV ANDROID_BUILD_TOOLS "30.0.2"
 ENV ANDROID_SDK_TOOLS "7583922"
 ENV ANDROID_HOME /android-sdk-linux
 ENV ANDROID_NDK_VERSION r21b
-ENV ANDROID_NDK_ROOT="/android-ndk-linux/android-ndk-${ANDROID_NDK_VERSION}"
+ENV ANDROID_NDK_FOLDER /android-ndk-linux
+ENV ANDROID_NDK_ROOT="${ANDROID_NDK_FOLDER}/android-ndk-${ANDROID_NDK_VERSION}"
 ENV SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools/:/root/.cargo/bin"
 
 RUN apt-get clean
 RUN apt-get --quiet update --yes
-RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 cmake python3 build-essential libtool automake ninja-build curl xxd
+RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 cmake python3 build-essential libtool automake ninja-build curl xxd ruby ruby-dev
 
 # Install Android SDK
 RUN wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
@@ -29,8 +30,14 @@ RUN echo y | $SDKMANAGER "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
 
 # Download NDK
 RUN wget --quiet -N --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip
-RUN mkdir /android-ndk-linux
-RUN unzip -d $ANDROID_NDK_ROOT android-ndk.zip
+RUN mkdir $ANDROID_NDK_FOLDER
+RUN unzip -d $ANDROID_NDK_FOLDER android-ndk.zip
+
+# Fastlane
+# Install fastlane and other gems
+RUN gem install rake
+RUN gem install fastlane -NV
+RUN gem install fastlane-plugin-firebase_app_distribution -NV
 
 # Install Rust + cross-compiler targets. This is used for
 # ring signature support in libbitcoincashkotlin
