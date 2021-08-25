@@ -9,9 +9,9 @@ ENV ANDROID_NDK_ROOT /android-ndk-linux
 ENV SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools/:/root/.cargo/bin"
 
+RUN apt-get clean
 RUN apt-get --quiet update --yes
 RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 cmake python3 build-essential libtool automake ninja-build curl
-RUN apt-get clean
 
 # Install Android SDK
 RUN wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
