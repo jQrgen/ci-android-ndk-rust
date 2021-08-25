@@ -5,7 +5,8 @@ ENV ANDROID_COMPILE_SDK "30"
 ENV ANDROID_BUILD_TOOLS "30.0.2"
 ENV ANDROID_SDK_TOOLS "7583922"
 ENV ANDROID_HOME /android-sdk-linux
-ENV ANDROID_NDK_ROOT /android-ndk-linux
+ENV ANDROID_NDK_VERSION r21b
+ENV ANDROID_NDK_ROOT="$/android-ndk-linux/android-ndk-${ANDROID_NDK_VERSION}"
 ENV SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools/:/root/.cargo/bin"
 
@@ -27,7 +28,7 @@ RUN echo y | $SDKMANAGER "platform-tools" >/dev/null
 RUN echo y | $SDKMANAGER "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
 
 # Download NDK
-RUN wget --quiet -N --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+RUN wget --quiet -N --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip
 RUN unzip -d $ANDROID_NDK_ROOT android-ndk.zip
 
 # Install Rust + cross-compiler targets. This is used for

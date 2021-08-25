@@ -2,7 +2,7 @@
 
 ## Build
 
-`docker build -t jqrgen/android-ci-2 .``
+`docker build -t jqrgen/android-ci-2 .`
 
 ## Deploy/push to docker hub
 
