@@ -15,11 +15,11 @@ RUN apt-get clean
 RUN apt-get --quiet update --yes
 RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 cmake python3 build-essential libtool automake ninja-build curl xxd ruby ruby-dev
 
-# Install Android SDK
+# Android SDK
 RUN wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
 RUN unzip -d $ANDROID_HOME android-sdk.zip
 
-# Accept android SDK lisences.
+# Android SDK lisences.
 RUN wget -N --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
 RUN unzip -x android-sdk.zip
 RUN mkdir -p ${ANDROID_HOME}/cmdline-tools
@@ -28,19 +28,18 @@ RUN echo y | $SDKMANAGER "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
 RUN echo y | $SDKMANAGER "platform-tools" >/dev/null
 RUN echo y | $SDKMANAGER "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
 
-# Download NDK
+# Android NDK
 RUN wget --quiet -N --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip
 RUN mkdir $ANDROID_NDK_FOLDER
 RUN unzip -d $ANDROID_NDK_FOLDER android-ndk.zip
 
 # Fastlane
-# Install fastlane and other gems
 RUN gem install rake
 RUN gem install fastlane -NV
 RUN gem install fastlane-plugin-firebase_app_distribution -NV
 
-# Install Rust + cross-compiler targets. This is used for
-# ring signature support in libbitcoincashkotlin
+# Rust + cross-compiler targets.
+# This is used for ring-signature support in libbitcoincashkotlin
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 RUN cargo install cbindgen
 RUN rustup target add \
@@ -49,7 +48,7 @@ RUN rustup target add \
      i686-linux-android \
      x86_64-linux-android
 
-# Clean
+# Cleanup
 RUN rm android-ndk.zip
 RUN rm android-sdk.zip
 RUN apt-get clean
