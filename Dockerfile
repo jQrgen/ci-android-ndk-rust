@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-buster
+FROM openjdk:11-jdk-buster
 
 SHELL ["/bin/bash", "-c"]
 ENV ANDROID_COMPILE_SDK "30"
