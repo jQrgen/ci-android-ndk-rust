@@ -1,4 +1,5 @@
-FROM openjdk:11
+FROM openjdk:11 
+
 
 SHELL ["/bin/bash", "-c"]
 ENV ANDROID_COMPILE_SDK "30"
@@ -10,6 +11,7 @@ ENV ANDROID_NDK_FOLDER /android-ndk-linux
 ENV ANDROID_NDK_ROOT="${ANDROID_NDK_FOLDER}/android-ndk-${ANDROID_NDK_VERSION}"
 ENV SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools/:/root/.cargo/bin"
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 RUN \
     # disable installation of suggested and recommended packages \
